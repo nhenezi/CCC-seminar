@@ -19,6 +19,9 @@
 \newtheorem{primjer}{Primjer}
 
 \begin{document}
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %% Definicija Kategorije %%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%
   \begin{definition}
     Kategorija $G$ se sastoji od:
     \begin{itemize}
@@ -57,6 +60,9 @@
   onda cemo umjesto $Obj$ i $Arw$ pisati $Obj_G$ i $Arw_G$.
   Sada cemo detaljno raspisati nekoliko primjera kategorija.
 
+  %%%%%%%%%%%%%%%%%%%%
+  %% Mon Kategorija %%
+  %%%%%%%%%%%%%%%%%%%%
   \begin{primjer}
     \bold{Monoid} je uredena trojka $(M, \cdot_M, 1_M)$ gdje je $M$ skup, $1_M
     \in M$, $\cdot_M$ binarna operacija na $M$ za koju vrijedi da za svaki $a, b, c \in M$:
@@ -106,6 +112,9 @@
     kategorije. Kategoriju monoida oznacavamo sa \category{Mon}.
   \end{primjer}
 
+  %%%%%%%%%%%%%%%%%%%%
+  %% Pos Kategorija %%
+  %%%%%%%%%%%%%%%%%%%%
   \begin{primjer}
     Neka je $S$ skup i $\leq \in S \times S$ relacija na $S$. Uredjeni par $(S,
     \leq_S)$ zovemo \bold{parcijalno uredeni skup} ako za svaki $a, b, c \in S$
@@ -147,6 +156,9 @@
   Pa mozemo govoriti u kategoriji \category{Pos} gdje su objekti parcijalno
   uredeni skupovi a strelice monotona preslikavanja.
 
+  %%%%%%%%%%%%%%%%%%%%%
+  %% Hask Kategorija %%
+  %%%%%%%%%%%%%%%%%%%%%
   \begin{primjer} \category{Hask} je kategorija Haskellovih tipova i funkcija. U
   \category{Hask} kategoriji objekti su Haskellovi tipovi koje oznacavamo velikim
   slovima:
@@ -173,6 +185,9 @@
     \code{ id.f = f = id.f }
   \end{primjer}
 
+  %%%%%%%%%%%%%%%%%%%%%%%%
+  %% Tablica Kategorija %%
+  %%%%%%%%%%%%%%%%%%%%%%%%
   \begin{center}
   \begin{longtabu}{l l l}  \vspace{1em}
     Kategorija & Objekti & Strelice \\

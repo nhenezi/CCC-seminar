@@ -6,6 +6,7 @@
 
 \definecolor{codegray}{gray}{0.9}
 \newcommand{\bold}[1]{\textbf{#1}}
+\newcommand{\category}[1]{\bold{\emph{#1}}}
 \newcommand{\code}[1]{
   \begin{align*}
     \texttt{#1}
@@ -115,9 +116,26 @@
     i definiramo kao standardnu funkcijsku kompoziciju, tj.:
     \code{(f.g) x = f (g x)}
   Pa se lako pokaze da vrijedi svojstvo asocijativnosti.
-  Identiteta je u \bold{Hask}-u dana funkcijom:
+  Identiteta je u \category{Hask}-u dana funkcijom:
     \code{ id x = x }
   te se lako vidi da vrijedi:
     \code{ id.f = f = id.f }
   \end{primjer}
+
+  \begin{center}
+  \begin{longtabu}{l l l}  \vspace{1em}
+    Kategorija & Objekti & Strelice \\
+      \category{Set} & skupovi & totalne funkcije \\
+      \category{Pfn} & skupovi & parcijalne funkcije \\
+      \category{Mon} & monoid & morfizmi \\
+      \category{Sgp} & polugrupe & morfizmi \\
+      \category{CMon} & komutativni monoidi & morfizmi \\
+      \category{Grp} & grupe & morfizmi \\
+      \category{AGrp} & abelove grupe & morfizmi \\
+      \category{Rng} & prstenovi & morfizmi \\
+      \category{Top} & topoloski prostori & neprekidna preslikavanja \\
+      \category{Vec$_K$} & Vektorski prostori nad poljem $K$& linearna preslikavanja \\
+
+    \end{longtabu}
+  \end{center}
 \end{document}

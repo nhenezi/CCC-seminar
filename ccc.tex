@@ -2,13 +2,13 @@
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsthm}
+\usepackage{amsfonts}
 \usepackage{color}
 \usepackage{longtable}
 \usepackage{tabu}
 
 \definecolor{codegray}{gray}{0.9}
-\newcommand{\bold}[1]{\textbf{#1}}
-\newcommand{\category}[1]{\bold{\emph{#1}}}
+\newcommand{\category}[1]{\textbf{\emph{#1}}}
 \newcommand{\code}[1]{
   \begin{align*}
     \texttt{#1}
@@ -64,7 +64,7 @@
   %% Mon Kategorija %%
   %%%%%%%%%%%%%%%%%%%%
   \begin{primjer}
-    \bold{Monoid} je uredena trojka $(M, \cdot_M, 1_M)$ gdje je $M$ skup, $1_M
+    \textbf{Monoid} je uredena trojka $(M, \cdot_M, 1_M)$ gdje je $M$ skup, $1_M
     \in M$, $\cdot_M$ binarna operacija na $M$ za koju vrijedi da za svaki $a, b, c \in M$:
     \begin{equation*}
       (a \cdot_M b) \cdot_M c = a \cdot_M (b \cdot_M c)
@@ -84,7 +84,7 @@
     \begin{equation*}
       \delta(1) = 1
     \end{equation*}
-    i zovemo ju \bold{morfizam}.
+    i zovemo ju \textbf{morfizam}.
     Pokazimo da je kompozicija dva morfizma morfizam.
     Neka su $a, b \in Obj_M$ i $M \xrightarrow{f} N \xrightarrow{g} P$, tada vrijedi:
     \begin{equation*}
@@ -117,7 +117,7 @@
   %%%%%%%%%%%%%%%%%%%%
   \begin{primjer}
     Neka je $S$ skup i $\leq \in S \times S$ relacija na $S$. Uredjeni par $(S,
-    \leq_S)$ zovemo \bold{parcijalno uredeni skup} ako za svaki $a, b, c \in S$
+    \leq_S)$ zovemo \textbf{parcijalno uredeni skup} ako za svaki $a, b, c \in S$
     vrijedi:
     \begin{itemize}
       \item $a \leq_S a$ (refleksivnost)
@@ -132,7 +132,7 @@
   \begin{equation*}
     a \leq b \implies f(a) \leq f(b)
   \end{equation*}
-  tada kazemo da je $f$ \bold{monotono preslikavanje}.
+  tada kazemo da je $f$ \textbf{monotono preslikavanje}.
   Pokazimo da su monotona preslikavanja zatvorena na kompoziciju.
   Neka su $S \xrightarrow{f} R \xrightarrow{g} Q$ monotona preslikavanja i $a,
   b \in S$ takva da $a \leq b$. Tada vrijedi:
@@ -185,22 +185,77 @@
     \code{ id.f = f = id.f }
   \end{primjer}
 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %% Kategorija gdje strelica nije standardna funkcija %%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \begin{primjer}
+    Pokazimo sada primjer neke kategorije $G$ gdje su objekti konacni skupovi,
+    a strelica ne mora biti uobicajena funkcija.
+    Neka su $A, B$ konacni skupovi, strelica $A \xrightarrow{f} B$ je funkcija:
+    \begin{equation*}
+      f:A \times B \rightarrow \mathbb{R}
+    \end{equation*}
+    Za strelice $A \xrightarrow{f} B \xrightarrow{g} C$ definiramo:
+    \begin{equation*}
+      g \circ f:A \times C \rightarrow \mathbb{R}
+    \end{equation*}
+    sa
+    \begin{equation*}
+      (g \circ f)(a, c) = \sum\{f(a, y)g(y,c) | y \in B\}
+    \end{equation*}
+  \end{primjer}
+
+  %%%%%%%%%%%%%%%%%%%%%%%
+  %% Dualna kategorija %%
+  %%%%%%%%%%%%%%%%%%%%%%%
+  \begin{primjer}
+    Neka je $G$ neka kategorija. Tada definiramo kategoriju $G^{op}$ koja ima
+    iste objekte kao i $G$, a za svaku strelicu u $G$, $A \xrightarrow{f} B$
+    definirana je dualna strelicu u $G^{op}$, $B \xrightarrow{f^{op}} A$.
+    Za strelice $A \xrightarrow{f} B \xrightarrow{g} C$ Kompozicija strelica
+    u $G^{op}$ definirana je sa:
+    \begin{equation*}
+      f^{op} \circ^{op} g^{op} = (g \circ f)^{op}
+    \end{equation*}
+    Pokazimo da tako definirana struktura $G^{op}$ zadovoljava svojstvo
+    asocijativnosti i identiteta, tj. da tako zadana struktura stvarno je
+    kategorija.
+    Neka su $A \xrightarrow{f} B \xrightarrow{g} C \xrightarrow{h} D$, tada je:
+    \begin{equation*}
+      id^{op}_B \circ^{op} f^{op} = (id_B \circ f)^{op} = (f \circ id_A)^{op} =
+      f^{op}
+    \end{equation*}
+    i
+    \begin{align*}
+      (h^{op} \circ^{op} g^{op}) \circ^{op} f^{op} &= (h \circ g)^{op} \circ^{op} f^{op}\\
+      &= ((h \circ g) \circ f)^{op}\\
+      &= (h \circ (g \circ f))^{op}\\
+      &= h^{op} \circ^{op} (g \circ f)^{op}\\
+      &= h^{op} \circ^{op} (g^{op} \circ^{op} f^{op})
+    \end{align*}
+    Pa je $G^{op}$ kategorija.
+  \end{primjer}
+
+
   %%%%%%%%%%%%%%%%%%%%%%%%
   %% Tablica Kategorija %%
   %%%%%%%%%%%%%%%%%%%%%%%%
+  Navedimo sada primjere jos nekih kategorija koje cemo kasnije definirati.
   \begin{center}
   \begin{longtabu}{l l l}  \vspace{1em}
     Kategorija & Objekti & Strelice \\
-      \category{Set} & skupovi & totalne funkcije \\
-      \category{Pfn} & skupovi & parcijalne funkcije \\
-      \category{Mon} & monoid & morfizmi \\
-      \category{Sgp} & polugrupe & morfizmi \\
-      \category{CMon} & komutativni monoidi & morfizmi \\
-      \category{Grp} & grupe & morfizmi \\
-      \category{AGrp} & abelove grupe & morfizmi \\
-      \category{Rng} & prstenovi & morfizmi \\
-      \category{Top} & topoloski prostori & neprekidna preslikavanja \\
-      \category{Vec$_K$} & Vektorski prostori nad poljem $K$& linearna preslikavanja \\
+    \category{Set} & skupovi & totalne funkcije \\
+    \category{RelA} & skupovi & binarne relacije \\
+    \category{Pfn} & skupovi & parcijalne funkcije \\
+    \category{Mon} & monoid & morfizmi \\
+    \category{Sgp} & polugrupe & morfizmi \\
+    \category{CMon} & komutativni monoidi & morfizmi \\
+    \category{Grp} & grupe & morfizmi \\
+    \category{AGrp} & abelove grupe & morfizmi \\
+    \category{Rng} & prstenovi & morfizmi \\
+    \category{Pos} & parcialno uredeni skupovi & monotona preslikavanja \\
+    \category{Top} & topoloski prostori & neprekidna preslikavanja \\
+    \category{Vec$_K$} & Vektorski prostori nad poljem $K$& linearna preslikavanja \\
 
     \end{longtabu}
   \end{center}

@@ -56,6 +56,7 @@
   Kada zelimo posebno naglasiti kojoj kategoriji pripadaju strelice i objekti
   onda cemo umjesto $Obj$ i $Arw$ pisati $Obj_G$ i $Arw_G$.
   Sada cemo detaljno raspisati nekoliko primjera kategorija.
+
   \begin{primjer}
     \bold{Monoid} je uredena trojka $(M, \cdot_M, 1_M)$ gdje je $M$ skup, $1_M
     \in M$, $\cdot_M$ binarna operacija na $M$ za koju vrijedi da za svaki $a, b, c \in M$:
@@ -102,17 +103,58 @@
       ((h \circ g) \circ f)(a) = h(g(f(a))) = (h \circ (g \circ f))(a)
     \end{equation*}
     zbog asocijativnosti komozicije funkcija, pa monoide mozemo promatrati kao
-    kategorije. Kategoriju monoida oznacavamo sa \bold{Mon}.
+    kategorije. Kategoriju monoida oznacavamo sa \category{Mon}.
   \end{primjer}
 
-  \begin{primjer} \textbf{Hask} je kategorija Haskellovih tipova i funkcija. U
-  \textbf{Hask} kategoriji objekti su Haskellovi tipovi koje oznacavamo velikim
+  \begin{primjer}
+    Neka je $S$ skup i $\leq \in S \times S$ relacija na $S$. Uredjeni par $(S,
+    \leq_S)$ zovemo \bold{parcijalno uredeni skup} ako za svaki $a, b, c \in S$
+    vrijedi:
+    \begin{itemize}
+      \item $a \leq_S a$ (refleksivnost)
+      \item ako $a \leq_S b$ i $b \leq_S a$ tada $a = b$ (anti-simetricnost)
+      \item ako $a \leq_S b$ i $b \leq_S c$ tada $a \leq_S c$ (tranzitivnost)
+    \end{itemize}
+  Radi kraceg zapisa pisati cemo samo $\leq$ umjesto $\leq_S$ i
+  govoriti cemo o parcijalno uredenom skupu $S$ gdje je implicitno definirna
+  binarna relacija $\leq$.
+  Neka su $S, R$ dva parcijalno uredena skupa i neka je $R \xrightarrow{f} S$
+  funkcija za koju vrijedi da za svaki $a, b \in S$ vrijedi:
+  \begin{equation*}
+    a \leq b \implies f(a) \leq f(b)
+  \end{equation*}
+  tada kazemo da je $f$ \bold{monotono preslikavanje}.
+  Pokazimo da su monotona preslikavanja zatvorena na kompoziciju.
+  Neka su $S \xrightarrow{f} R \xrightarrow{g} Q$ monotona preslikavanja i $a,
+  b \in S$ takva da $a \leq b$. Tada vrijedi:
+  \begin{equation*}
+    a \leq b \implies f(a) \leq f(b) \implies g(f(a)) \leq g(f(b))
+  \end{equation*}
+  tj.
+  \begin{equation*}
+    a \leq b \implies (g \circ f)(a) \leq (g \circ f)(b)
+  \end{equation*}
+
+  Identiteta na parcijalnu uredenom skupu $S$ je definirana kao standardna
+  funkcijska identiteta. Kao i u prijasnjem primjeru pokaze se da vrijedi:
+  \begin{equation*}
+    (id_R) \circ f = f = f \circ id_S
+  \end{equation*}
+  \begin{equation*}
+    (h \circ g) \circ f = h \circ (g \circ f)
+  \end{equation*}
+  \end{primjer}
+  Pa mozemo govoriti u kategoriji \category{Pos} gdje su objekti parcijalno
+  uredeni skupovi a strelice monotona preslikavanja.
+
+  \begin{primjer} \category{Hask} je kategorija Haskellovih tipova i funkcija. U
+  \category{Hask} kategoriji objekti su Haskellovi tipovi koje oznacavamo velikim
   slovima:
     \code{A, B, C, ...}
-  Strelice u \textbf{Hask}-u su Haskellove funkcije koje oznacavamo malim
+  Strelice u \category{Hask}-u su Haskellove funkcije koje oznacavamo malim
   slovima:
     \code{f, g, h, ...}
-  Strelicu $A \xrightarrow{f} B$ u \textbf{Hask}-u zapisujemo:
+  Strelicu $A \xrightarrow{f} B$ u \category{Hask}-u zapisujemo:
     \code{f :: A -> B}
   Funkcije
     \code{

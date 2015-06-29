@@ -6,6 +6,7 @@
 \usepackage{color}
 \usepackage{longtable}
 \usepackage{tabu}
+\usepackage{tikz}
 
 \definecolor{codegray}{gray}{0.9}
 \newcommand{\category}[1]{\textbf{\emph{#1}}}
@@ -17,6 +18,8 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definicija}
 \newtheorem{primjer}{Primjer}
+\newtheorem{koloral}{Koloral}
+\newtheorem{teorem}{Teorem}
 
 \begin{document}
   %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -25,7 +28,8 @@
   \section{Kategorije}
   U ovom poglavlju definiramo kategorije i detaljno raspisujemo nekoliko
   primjera.
-  Intuitivno, teorija kategorije proucava "objekte" i preslikavanje izmedu njih.
+  Intuitivno, teorija kategorije proucava "objekte" i preslikavanje izmedu
+  njih. To su primitivni objekti u teoriji kategorija koje ne definiramo.
   \begin{definition}
     Kategorija $G$ sastoji se od:
     \begin{itemize}
@@ -55,13 +59,15 @@
         \end{align}
       \item svojstvo asocijativnost: za sve strelice $A \xrightarrow{f} B
       \xrightarrow{g} C \xrightarrow{h} D$ vrijedi:
-        \begin{align}
+        \begin{align} \label{def:kat_assoc}
           (h \circ g) \circ f = h \circ (g \circ f)
         \end{align}
     \end{itemize}
   \end{definition}
   Kada zelimo posebno naglasiti kojoj kategoriji pripadaju strelice i objekti
   onda cemo umjesto $Obj$ i $Arw$ pisati $Obj_G$ i $Arw_G$.
+  Za $A, B \in Obj_G$ skup svih strelica sa $A$ u $B$ oznacavamo sa
+  \category{G}$[A, B]$.
   Sada cemo detaljno raspisati nekoliko primjera kategorija.
 
   %%%%%%%%%%%%%%%%%%%%
@@ -101,7 +107,7 @@
       id_M(a) = a
     \end{equation*}
     Pokazimo sada da tako definiran strelice na monoidu zadovoljavaju
-    svojstvo identiteta i asocijativnosti za kategorije.
+    svojstvo identiteta i asocijativnosti (\ref{def:kat_assoc}) za kategorije.
     Neka je $a \in Obj_M$ i $M \xrightarrow{f} N$, tada vrijedi:
     \begin{equation*}
       (id_N \circ f)(a) = id_N(f(a)) = f(a) = f(id_M(a)) = (f \circ id_M)(a)
@@ -193,7 +199,8 @@
   \begin{primjer}
     Pokazimo sada primjer neke kategorije $G$ gdje su objekti konacni skupovi,
     a strelica izmedu objekata ne mora biti uobicajena funkcija.
-    Neka su $A, B$ konacni skupovi, strelica $A \xrightarrow{f} B$ je funkcija:
+    Neka su $A, B$ konacni skupovi, strelica $A \xrightarrow{f} B$ je
+    proizvoljna funkcija:
     \begin{equation*}
       f:A \times B \rightarrow \mathbb{R}
     \end{equation*}
@@ -205,7 +212,7 @@
     \begin{equation*}
       (g \circ f)(a, c) = \sum\{f(a, y)g(y,c) | y \in B\}
     \end{equation*}
-  \end{primjer}
+    Lako je vidjeti da je to kategorija.  \end{primjer}
 
   %%%%%%%%%%%%%%%%%%%%%%%
   %% Dualna kategorija %%
@@ -259,4 +266,108 @@
 
     \end{longtabu}
   \end{center}
+
+  %%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%% DIJAGRAM %%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%
+
+  \section{Dijagram}
+  U teoriji kategorija dijagrame koristimo kao reprezentaciju jednadzbi.
+  Za kategoriju \category{G} i $A, B \in Obj_G$ vec smo vidjeli da
+  preslikavanje $f \in \category{G}[A, B]$ oznacavamo dijagramom
+  \begin{align*}
+    A \xrightarrow{f} B
+  \end{align*}
+  Pogledajmo slijedeci dijagram sa tri strelice:
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={5em,between origins}, row sep={2em}] at (0,0)
+      {
+        \node(A) {$\bullet$};\\
+        \node(B) {$\bullet$}; & \node(C) {$\bullet$}; \\
+      };
+
+      \draw[<-] (A) -- (B) node[anchor=east] {$f$};
+      \draw[->] (B) -- (C) node[anchor=north]  {$g$};
+      \draw[->] (A) -- (C) node[anchor=south] {$h$};
+    \end{tikzpicture}
+  \end{center}
+  Primjetimo da objektima nismo dali imena (zato sto nam za ovaj primjer nije
+  bitno), ali to ne znaci da su ta tri objekta jednaka. Ako vrijedi
+  \begin{align*}
+    g \circ f = h
+  \end{align*}
+  tada kazemo da dijagram \textbf{komutira}.
+  Dijagramom zakon asocijativnosti za $f, g, h$ mozemo prikazati kao:
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={5em,between origins}, row sep={2em}] at (0,0)
+      {
+        \node(A) {$A$}; & \node(B) {$B$}; \\
+        \node(C) {$C$}; & \node(D) {$D$}; \\
+      };
+      \draw[->] (A) -- (B) node[anchor=south] {$f$};
+      \draw[->] (B) -- (C) node[anchor=north] {$g$};
+      \draw[->] (C) -- (D) node[anchor=north] {$h$};
+
+      \draw[->] (A) -- (C) node {};
+      \draw[->] (B) -- (D) node {};
+    \end{tikzpicture}
+  \end{center}
+
+
+  Kao i u mnogim granama matematike u teoriji kategorija ponekad zelimo
+  pokazati da su dvije stvari jednake. Rijetko zelimo pokazati da su dva
+  objekta jednaka; cesce cemo pokazivati jednakost strelica i za to cemo
+  koristiti tehniku zvanu pracenje dijagrama (eng. dijagram chasing).
+  Dijagram:
+
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={5em,between origins}, row sep={2em}] at (0,0)
+      {
+        & \node(B) {$\bullet$}; &\\
+        \node(A) {$\bullet$}; && \node(C) {$\bullet$}; \\
+        & \node(D) {$\bullet$}; & \\
+      };
+      \draw[->] (A) -- (B) node[anchor=south] {$f$};
+      \draw[->] (B) -- (C) node[anchor=south] {$g$};
+      \draw[->] (B) -- (D) node[anchor=east] {$h$};
+      \draw[->] (A) -- (D) node[anchor=north] {$k$};
+      \draw[->] (D) -- (C) node[anchor=north] {$k$};
+    \end{tikzpicture}
+  \end{center}
+  Ima cetiri neimenovana objekta, pet strelica, $f, g, h, k, l$ i pet
+  strelica nastalih kompozicijom
+  \begin{align*}
+    g \circ f, h \circ f, l \circ h \circ f, l \circ h, l \circ k
+  \end{align*}
+  Primjetimo da neke od tih strelica mogu biti jednake.
+  Ovaj dijagram ima tri celije: vanjsku $(f, k, l, g)$, lijevi
+  unutarnji trokut $(f, h, k)$ i desni unutarnji trokut $(h, g, l)$.
+  Neke od tih celija mogu komutirati:
+  \begin{itemize}
+      \item lijevi trokut komutira ako vrijedi $h \circ f = k$
+      \item desni trokut komutira ako vrijedi $l \circ h = g$
+      \item vanjska celija komutira ako vrijedi $g \circ f = l \circ k$
+  \end{itemize}
+  Pracenje diagrama je proces u kojem pokazemo da neka celija komutira pomocu
+  cinjenica da neke druge celije komutiraju i nekih drugih svojstva diagrama
+
+  \begin{primjer} Pokazimo za prijasnji dijagram ako unutarnji trokuti
+    komutiraju da tada vanjska celija komutira, tj. da ako vrijedi
+    \begin{align*}
+      h \circ f = k \qquad  l \circ h = g
+    \end{align*}
+    trebamo pokazati da vrijedi:
+    \begin{align*}
+      g \circ f = l \circ k
+    \end{align*}
+    Algebarski dobivamo:
+    \begin{align*}
+      g \circ f = (l \circ h) \circ f \overset{(\ref{def:kat_assoc})}{=} l \circ (h \circ f) = l \circ k
+    \end{align*}
+  \end{primjer}
 \end{document}

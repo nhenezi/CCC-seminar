@@ -1,5 +1,6 @@
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
+\usepackage[croatian]{babel}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{amsfonts}
@@ -7,6 +8,10 @@
 \usepackage{longtable}
 \usepackage{tabu}
 \usepackage{tikz}
+\usepackage{extpfeil}
+
+\newextarrow{\xbigtoto}{{20}{20}{20}{20}}
+{\bigRelbar\bigRelbar{\bigtwoarrowsleft\rightarrow\rightarrow}}
 
 \definecolor{codegray}{gray}{0.9}
 \newcommand{\category}[1]{\textbf{\emph{#1}}}
@@ -289,7 +294,7 @@
         \node(B) {$\bullet$}; & \node(C) {$\bullet$}; \\
       };
 
-      \draw[<-] (A) -- (B) node[anchor=east] {$f$};
+      \draw[->] (A) -- (B) node[anchor=east] {$f$};
       \draw[->] (B) -- (C) node[anchor=north]  {$g$};
       \draw[->] (A) -- (C) node[anchor=south] {$h$};
     \end{tikzpicture}
@@ -321,7 +326,7 @@
   Kao i u mnogim granama matematike u teoriji kategorija ponekad zelimo
   pokazati da su dvije stvari jednake. Rijetko zelimo pokazati da su dva
   objekta jednaka; cesce cemo pokazivati jednakost strelica i za to cemo
-  koristiti tehniku zvanu pracenje dijagrama (eng. dijagram chasing).
+  koristiti tehniku zvanu pracenje dijagrama (en. diagram chasing).
   Dijagram:
 
   \begin{center}
@@ -336,7 +341,7 @@
       \draw[->] (B) -- (C) node[anchor=south] {$g$};
       \draw[->] (B) -- (D) node[anchor=east] {$h$};
       \draw[->] (A) -- (D) node[anchor=north] {$k$};
-      \draw[->] (D) -- (C) node[anchor=north] {$k$};
+      \draw[->] (D) -- (C) node[anchor=north] {$l$};
     \end{tikzpicture}
   \end{center}
   Ima cetiri neimenovana objekta, pet strelica, $f, g, h, k, l$ i pet
@@ -369,5 +374,178 @@
     \begin{align*}
       g \circ f = (l \circ h) \circ f \overset{(\ref{def:kat_assoc})}{=} l \circ (h \circ f) = l \circ k
     \end{align*}
+    Tehnikom pracenja diagrama i primjecivanjem da su neke kompozicije jednake
+    imamo:
+    \begin{center}
+      \begin{tikzpicture}[every node/.style={midway}]
+        \matrix[column sep={3em,between origins}, row sep={1em}] at (0,0)
+        {
+          & \node(B) {$\bullet$}; &&&& \node(E) {$\bullet$}; &&&&&\\
+          \node(A) {$\bullet$}; && \node(C) {$\bullet$}; & \node(EQ1) {$=$};
+          & \node(D) {$\bullet$}; && \node(G) {$\bullet$}; & \node(EQ2) {$=$};
+          & \node(I) {$\bullet$}; && \node(K) {$\bullet$};\\
+          &&&&& \node(F) {$\bullet$}; &&&& \node(J) {$\bullet$}; & \\
+        };
+      \draw[->] (A) -- (B) node[anchor=south] {$f$};
+      \draw[->] (B) -- (C) node[anchor=south] {$g$};
+      \draw[->] (D) -- (E) node[anchor=south] {$f$};
+      \draw[->] (E) -- (F) node[anchor=east] {$h$};
+      \draw[->] (F) -- (G) node[anchor=north] {$l$};
+      \draw[->] (I) -- (J) node[anchor=north] {$k$};
+      \draw[->] (J) -- (K) node[anchor=north] {$l$};
+      \end{tikzpicture}
+    \end{center}
   \end{primjer}
+  \newpage 
+
+  %%%%%%%%%%%%%%%%%%%
+  %% Monoik i epik %%
+  %%%%%%%%%%%%%%%%%%%
+  \section{Monoik i epik}
+
+  \begin{definition}
+    U proizvoljnoj kategoriji \category{G} strelicu:
+    \begin{align*}
+      B \xrightarrow{m} A
+    \end{align*}
+    Za koju vrijedi da za svaki par strelica
+    \begin{align*}
+      X \xbigtoto[g]{f} B
+    \end{align*}
+    vrijedi:
+    \begin{align}
+      m \circ f = m \circ g \implies f = g
+    \end{align}
+    Zovemo \textbf{monoik}.
+  \end{definition}
+  \begin{primjer}
+    Neka je \category{G} neka kategorija na skupovima i neka su strelice
+    totalne funkcije izmedu skupova.
+    Akoje $B \xrightarrow{m} A$ injektivna (kao funkcija) tada je monoik (kao
+    strelica).
+    Pretpostavimo da vrijedi:
+    \begin{align} \label{me:pr:1}
+      m \circ f = m \circ g
+    \end{align}
+    za neki paralelni par strelica
+    \begin{align*}
+      A \xbigtoto[g]{f} B
+    \end{align*}
+    Kako su f i g totalne funkcije dovoljno je pokazati da za $x \in X$
+    vrijedi:
+    \begin{align*}
+      f(x) = g(x)
+    \end{align*}
+    Imamo:
+    \begin{align*}
+      m(f(x)) = (m \circ f)(x) \overset{(\ref{me:pr:1})}{=} (m \circ g)(x) = m(g(x))
+    \end{align*}
+    No kako je m injektivna za $a, b \in B$ imamo:
+    \begin{align*}
+      m(a) = m(b) \implies a = b
+    \end{align*}
+    pa je $m$ monoik.
+    \end{primjer}
+
+  \begin{definition}
+    U proizvoljnoj kategoriji \category{G} strelicu:
+    \begin{align*}
+      A \xrightarrow{e} B
+    \end{align*}
+    Za koju vrijedi da za svaki par strelica
+    \begin{align*}
+      X \xbigtoto[g]{f} B
+    \end{align*}
+    vrijedi:
+    \begin{align}
+      f \circ e = g \circ e \implies x = y
+    \end{align}
+    Zovemo \textbf{epik}.
+  \end{definition}
+  Pokazimo sad na slicnom primjeru kao i prije kako se epik ponasa na
+  kategoriji nad skupovima.
+  \begin{primjer}
+    Neka je \category{G} neka kategorija na skupovima i neka su strelice
+    totalne funkcije izmedu skupova.
+    Akoje $A \xrightarrow{e} B$ surjektivna (kao funkcija) tada je epik (kao
+    strelica).
+    Pretpostavimo da vrijedi:
+    \begin{align} \label{me:pr:2}
+      f \circ e = g \circ e
+    \end{align}
+    za neki paralelni par strelica
+    \begin{align*}
+      B \xbigtoto[g]{f} X
+    \end{align*}
+    Kako su f i g totalne funkcije dovoljno je pokazati da za $x \in X$
+    vrijedi:
+    \begin{align*}
+      f(x) = g(x)
+    \end{align*}
+    Kako je $e$ surjektivna znamo da za $b \in B$ postoji $a \in A$ takav da
+    vrijedi:
+    \begin{align*}
+      b = e(a)
+    \end{align*}
+    Imamo
+    \begin{align*}
+      f(b) = f(e(a)) = (f \circ e)(a) = (g \circ e)(a) = g(e(a)) = g(b)
+    \end{align*}
+    Pa je $e$ epik.
+  \end{primjer}
+    Prijasnji primjeri pokazuju da za dovoljno lijepe kategorije vrijedi:
+    \begin{center}
+      injekcija $\implies$ monoik \qquad surjekcija $\implies$ epik
+    \end{center}
+    No za neke kategorije "injekvina strelica" ili "surjektivna strelica"
+    nemaju smisla, tako da monoike i epike bi pravilnije bi
+    \begin{definition}
+      Ako za Strelice:
+      \begin{align*}
+        B \xrightarrow{s} A \qquad A \xrightarrow{r} B
+      \end{align*}
+      vrijedi:
+      \begin{align*}
+        r \circ s = id_B
+      \end{align*}
+      Tada $s$ nazivamo \textbf{sekcija}, a $r$ \textbf{retrakcija}.
+    \end{definition}
+    \begin{definition}
+      \textbf{Bimorfizam} je strelica koja je monik i epik.
+    \end{definition}
+    \begin{definition}
+      Za strelicu $A \xrightarrow{f} B$ kazemo da je \textbf{izomorfizam} ako
+      postoji $B \xrightarrow{g} A$ takva da vrijedi:
+      \begin{align}
+        g \circ f = id_A \wedge f \circ g = id_B
+      \end{align}
+    \end{definition}
+    Graficki prikazano:
+    \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={5em,between origins}, row sep={2em}] at (0,0)
+      {
+        & \node(S) {Strelica}; &\\
+        \node(M) {Monoik}; && \node(E) {Epik}; \\
+        & \node(B) {Bimorfizam}; & \\
+        \node(SM) {Split Monoik}; && \node(SE) {Split Epik};\\
+        & \node(I) {Izomorfizam}; & \\
+      };
+      \draw[->] (S) -- (M) node[anchor=north] {};
+      \draw[->] (S) -- (E) node[anchor=north] {};
+      \draw[->] (E) -- (SE) node[anchor=north] {};
+      \draw[->] (E) -- (B) node[anchor=north] {};
+      \draw[->] (M) -- (SM) node[anchor=north] {};
+      \draw[->] (M) -- (B) node[anchor=north] {};
+      \draw[->] (SM) -- (I) node[anchor=north] {};
+      \draw[->] (SE) -- (I) node[anchor=north] {};
+      \draw[->] (B) -- (I) node[anchor=north] {};
+    \end{tikzpicture}
+    \end{center}
+
+  %%%%%%%%%%%%%%%%%%%%%%
+  %% Limes i kolimesi %%
+  %%%%%%%%%%%%%%%%%%%%%%
+  \newpage
+  \section{Limesi i kolimesi}
 \end{document}

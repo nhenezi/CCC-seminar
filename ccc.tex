@@ -31,23 +31,25 @@
   %% Definicija Kategorije %%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%
   \section{Kategorije}
+  Teorija kategorije proucava "objekte" i "preslikavanja" izmedu
+  njih. Objekti i preslikavanja su primitivni objekti u teoriji kategorija i
+  njih ne definiramo. Objekti ne moraju biti kolekcije elemenata i
+  preslikavanja ne moraju biti funkcije na skupovima.
   U ovom poglavlju definiramo kategorije i detaljno raspisujemo nekoliko
   primjera.
-  Intuitivno, teorija kategorije proucava "objekte" i preslikavanje izmedu
-  njih. To su primitivni objekti u teoriji kategorija koje ne definiramo.
   \begin{definition}
     Kategorija $G$ sastoji se od:
     \begin{itemize}
-      \item kolekcije objekata $Obj$
-      \item kolekcije strelica $Arw$
-      \item pridruzivanja $Arw \xrightarrow{source} Obj$
-      \item pridruzivanja $Arw \xrightarrow{target} Obj$
-      \item pridruzivanja (identiteta) $Obj \xrightarrow{id} Arw$ takvog da
+      \item klase objekata $Obj$
+      \item klase strelica $Arw$
+      \item preslikavanje $Arw \xrightarrow{source} Obj$
+      \item preslikavanje $Arw \xrightarrow{target} Obj$
+      \item preslikavanje (identiteta) $Obj \xrightarrow{id} Arw$ takvog da
       za $B \xrightarrow{id} id_B$ vrijedi:
         \begin{equation}
           target(id_B) = source(id_B) = B
         \end{equation}
-      \item pridruzivanja (kompozicija) $Arw \times Arw \xrightarrow{\circ}
+      \item preslikavanje (kompozicija) $Arw \times Arw \xrightarrow{\circ}
       Arw$ takvog da za \\ $(f, g) \xrightarrow{\circ} f \circ g$ vrijedi:
         \begin{align}
           source(f) &= target(g) \\
@@ -55,7 +57,7 @@
           target(f \circ g) &= target(f)
         \end{align}
     \end{itemize}
-    Pridruzivanja identiteta ($id$) i kompozicija ($\circ$) moraju
+    Preslikavanje identiteta ($id$) i kompozicija ($\circ$) moraju
     zadovoljavati:
     \begin{itemize}
       \item svojstvo identiteta: za svaku strelicu $A \xrightarrow{f} B$ vrijedi:
@@ -90,7 +92,7 @@
     Neutralni element $1_M$ i binarnu operaciju $\cdot_M$ cemo uglavnom pisati
     kao $1$ i $\cdot$ osim ako nece biti jasno iz konteksta na kojem monoidu
     su defnirani.
-    Kada monoid promatramo kao kategoriju tada su objekti elementi skupa M, a
+    Kada monoid promatramo kao kategoriju tada su objekti skupovi, a
     za dva monoida $M, N$ definiramo strelicu $M \xrightarrow{\delta} N$ kao
     funkciju za koju vrijedi da za svaki $a, b \in M$ vrijedi:
     \begin{equation*}
@@ -249,35 +251,13 @@
     \end{align*}
     Pa je $G^{op}$ kategorija.
   \end{primjer}
-  %%%%%%%%%%%%%%%%%%%%%%%%
-  %% Tablica Kategorija %%
-  %%%%%%%%%%%%%%%%%%%%%%%%
-  Navedimo sada primjere jos nekih kategorija koje cemo kasnije definirati.
-  \begin{center}
-  \begin{longtabu}{l l l}  \vspace{1em}
-    Kategorija & Objekti & Strelice \\
-    \category{Set} & skupovi & totalne funkcije \\
-    \category{RelA} & skupovi & binarne relacije \\
-    \category{Pfn} & skupovi & parcijalne funkcije \\
-    \category{Mon} & monoid & morfizmi \\
-    \category{Sgp} & polugrupe & morfizmi \\
-    \category{CMon} & komutativni monoidi & morfizmi \\
-    \category{Grp} & grupe & morfizmi \\
-    \category{AGrp} & abelove grupe & morfizmi \\
-    \category{Rng} & prstenovi & morfizmi \\
-    \category{Pos} & parcialno uredeni skupovi & monotona preslikavanja \\
-    \category{Top} & topoloski prostori & neprekidna preslikavanja \\
-    \category{Vec$_K$} & Vektorski prostori nad poljem $K$& linearna preslikavanja \\
-
-    \end{longtabu}
-  \end{center}
-
+  
   %%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%% DIJAGRAM %%%%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%
-
+  \newpage
   \section{Dijagram}
   U teoriji kategorija dijagrame koristimo kao reprezentaciju jednadzbi.
   Za kategoriju \category{G} i $A, B \in Obj_G$ vec smo vidjeli da
@@ -316,9 +296,6 @@
       \draw[->] (A) -- (B) node[anchor=south] {$f$};
       \draw[->] (B) -- (C) node[anchor=north] {$g$};
       \draw[->] (C) -- (D) node[anchor=north] {$h$};
-
-      \draw[->] (A) -- (C) node {};
-      \draw[->] (B) -- (D) node {};
     \end{tikzpicture}
   \end{center}
 
@@ -396,11 +373,88 @@
       \end{tikzpicture}
     \end{center}
   \end{primjer}
-  \newpage 
 
+  Kod jednostavnijih primjera se ne vidi prednost koristenje tehnike dijagrama.
+  Pokazimo sad na malo kompliciranijem primjeru kako se tehnikom dijagrama
+  intuitivnije moze objasniti komutacija dijagrama.
+
+  \begin{primjer}
+    Ako u dijagramu:
+    \begin{center}
+      \begin{tikzpicture}[every node/.style={midway}]
+        \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+        {
+          & \node(B) {$\bullet$};&&  \node(C) {$\bullet$}; &\\
+          \node(A) {$\bullet$}; && \node(E) {$\bullet$}; && \node(D) {$\bullet$};\\
+          && \node(F) {$\bullet$}; &&\\
+        };
+      \draw[->] (A) -- (B) node[anchor=south] {$f$};
+      \draw[->] (B) -- (C) node[anchor=south] {$g$};
+      \draw[->] (C) -- (D) node[anchor=south] {$h$};
+      \draw[->] (A) -- (E) node[anchor=south] {$i$};
+      \draw[->] (E) -- (D) node[anchor=south] {$j$};
+      \draw[->] (B) -- (E) node[anchor=south] {$m$};
+      \draw[->] (E) -- (C) node[anchor=south] {$n$};
+      \draw[->] (A) -- (F) node[anchor=north] {$k$};
+      \draw[->] (F) -- (D) node[anchor=north] {$l$};
+      \end{tikzpicture}
+    \end{center}
+
+    Komutiraju cetiri unutarnja trokuta, pokazite da komutira i vanjska
+    celija.
+
+    Cilj nam je pokazati da vrijedi:
+    \begin{center}
+      $h \circ g \circ f = l \circ k$
+    \end{center}
+    Algebarski:
+    \begin{align*}
+      h \circ g \circ f &= h \circ (n \circ m) \circ f = (h \circ n) \circ (m \circ f) =\\
+      &= i \circ j = l \circ k\\
+    \end{align*}
+    Pokazimo to tehnikom pracenja dijagrama.
+    \begin{center}
+      \begin{tikzpicture}[every node/.style={midway}]
+        \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+        {
+          & \node(B) {$\bullet$};&&  \node(C) {$\bullet$}; &&
+          && \node(B1) {$\bullet$};&&  \node(C1) {$\bullet$}; &\\
+          \node(A) {$\bullet$}; && ; && \node(D) {$\bullet$}; & \node(EQ1) {$=$};
+          & \node(A1) {$\bullet$}; && \node(E1) {$\bullet$}; && \node(D1)
+          {$\bullet$}; & \node(EQ2) {$=$};\\
+        };
+      \draw[->] (A) -- (B) node[anchor=south] {$f$};
+      \draw[->] (B) -- (C) node[anchor=south] {$g$};
+      \draw[->] (C) -- (D) node[anchor=south] {$h$};
+
+      \draw[->] (A1) -- (B1) node[anchor=south] {$f$};
+      \draw[->] (C1) -- (D1) node[anchor=south] {$h$};
+      \draw[->] (B1) -- (E1) node[anchor=south] {$m$};
+      \draw[->] (E1) -- (C1) node[anchor=south] {$n$};
+
+      \end{tikzpicture}
+    \end{center}
+    \begin{center}
+      \begin{tikzpicture}[every node/.style={midway}]
+        \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+        {
+          \node(A) {$\bullet$}; && \node(E) {$\bullet$}; && \node(D)
+          {$\bullet$}; & \node(EQ1) {$=$};
+          & \node(A1) {$\bullet$}; && && \node(D1) {$\bullet$}; &\\
+          &&&&&&&& \node(F1) {$\bullet$}; &&\\
+        };
+      \draw[->] (A) -- (E) node[anchor=south] {$i$};
+      \draw[->] (E) -- (D) node[anchor=south] {$j$};
+      \draw[->] (A1) -- (F1) node[anchor=south] {$k$};
+      \draw[->] (F1) -- (D1) node[anchor=south] {$l$};
+      \end{tikzpicture}
+    \end{center}
+
+  \end{primjer}
   %%%%%%%%%%%%%%%%%%%
   %% Monoik i epik %%
   %%%%%%%%%%%%%%%%%%%
+  \newpage
   \section{Monoik i epik}
 
   \begin{definition}
@@ -421,7 +475,7 @@
   \begin{primjer}
     Neka je \category{G} neka kategorija na skupovima i neka su strelice
     totalne funkcije izmedu skupova.
-    Akoje $B \xrightarrow{m} A$ injektivna (kao funkcija) tada je monoik (kao
+    Ako je $B \xrightarrow{m} A$ injektivna (kao funkcija) tada je $m$ monoik (kao
     strelica).
     Pretpostavimo da vrijedi:
     \begin{align} \label{me:pr:1}
@@ -454,11 +508,11 @@
     \end{align*}
     Za koju vrijedi da za svaki par strelica
     \begin{align*}
-      X \xbigtoto[g]{f} B
+      B \xbigtoto[g]{f} X
     \end{align*}
     vrijedi:
     \begin{align}
-      f \circ e = g \circ e \implies x = y
+      f \circ e = g \circ e \implies f = g
     \end{align}
     Zovemo \textbf{epik}.
   \end{definition}
@@ -467,7 +521,7 @@
   \begin{primjer}
     Neka je \category{G} neka kategorija na skupovima i neka su strelice
     totalne funkcije izmedu skupova.
-    Akoje $A \xrightarrow{e} B$ surjektivna (kao funkcija) tada je epik (kao
+    Ako je $A \xrightarrow{e} B$ surjektivna (kao funkcija) tada je epik (kao
     strelica).
     Pretpostavimo da vrijedi:
     \begin{align} \label{me:pr:2}
@@ -498,7 +552,10 @@
       injekcija $\implies$ monoik \qquad surjekcija $\implies$ epik
     \end{center}
     No za neke kategorije "injekvina strelica" ili "surjektivna strelica"
-    nemaju smisla, tako da monoike i epike bi pravilnije bi
+    nemaju smisla, tako da takva intuitivna interpretacija ima smisla za
+    "dovoljno lijepe" kategorije. Pravilnije bi bilo gledati na monoik i epik
+    kao na strelice koje se mogu "ponistiti" na jednoj strani. Ako pak strelica
+    ima jednostrani inverz tada dobivamo posebnu klasu monoika i epika.
     \begin{definition}
       Ako za Strelice:
       \begin{align*}
@@ -510,16 +567,19 @@
       \end{align*}
       Tada $s$ nazivamo \textbf{sekcija}, a $r$ \textbf{retrakcija}.
     \end{definition}
+    Lako se pokaze da je svaka sekcija monoik i svaka retrakcija epik.
     \begin{definition}
       \textbf{Bimorfizam} je strelica koja je monik i epik.
     \end{definition}
     \begin{definition}
       Za strelicu $A \xrightarrow{f} B$ kazemo da je \textbf{izomorfizam} ako
-      postoji $B \xrightarrow{g} A$ takva da vrijedi:
+      postoji strelica $B \xrightarrow{g} A$ takva da vrijedi:
       \begin{align}
         g \circ f = id_A \wedge f \circ g = id_B
       \end{align}
     \end{definition}
+    Lako se pokaze da ukoliko je strelica sekcija i epik ili retrakcija i
+    monoik da je tada i izomorfizam.
     Graficki prikazano:
     \begin{center}
     \begin{tikzpicture}[every node/.style={midway}]
@@ -528,7 +588,7 @@
         & \node(S) {Strelica}; &\\
         \node(M) {Monoik}; && \node(E) {Epik}; \\
         & \node(B) {Bimorfizam}; & \\
-        \node(SM) {Split Monoik}; && \node(SE) {Split Epik};\\
+        \node(SM) {Sekcija}; && \node(SE) {Retrakcija};\\
         & \node(I) {Izomorfizam}; & \\
       };
       \draw[->] (S) -- (M) node[anchor=north] {};
@@ -542,10 +602,255 @@
       \draw[->] (B) -- (I) node[anchor=north] {};
     \end{tikzpicture}
     \end{center}
-
   %%%%%%%%%%%%%%%%%%%%%%
   %% Limes i kolimesi %%
   %%%%%%%%%%%%%%%%%%%%%%
   \newpage
-  \section{Limesi i kolimesi}
+  \section{Kategorijski konstrukori}
+  U ovom poglavlju istrazujemo neke osnovne kategorijske
+  konstruktore, tj. objekte koji zadovoljavaju neka pravila definirana u teoriji
+  kategorija. Kako u jeziku kategorija ne gledamo unutrasnju strukturu objekata
+  svi koncept moraju biti definirani pomocu relacija izmedu objekata.
+  \subsection{Inicijalni i zavrsni objekti}
+  \begin{definition}
+    Za objekt $S$ u kategoriji \category{G} kazemo da je \textbf{finalan} ako za svaki
+    objekt $A$ postoji jedinstvena strelica $A \xrightarrow{} S$
+  \end{definition}
+  \begin{definition}
+    Za objekt $S$ u kategoriji \category{G} kazemo da je \textbf{inicijalan} ako za svaki
+    objekt $A$ postoji jedinstvena strelica $S \xrightarrow{} A$
+  \end{definition}
+  \begin{primjer}
+    Neka je \category{Set} kategorija skupova i neka je 
+    \begin{center}
+      $1 = \{x\}$
+    \end{center}
+    skup se jednim elementom. Za svaki skup $A$ postoji jednistvena strelica
+    \begin{center}
+      $A \xrightarrow{} 1$
+    \end{center}
+    (funkcija koja preslikava sve u $x$) pa je $1$ finalni objekt za
+    \category{Set}.
+    Za svaki skup $A$ postoji jednistvena strelica
+    \begin{center}
+      $\emptyset \xrightarrow{} A$
+    \end{center}
+    (gdje je $\emptyset$ prazan skup) pa je $\emptyset$ inicijalni objekt za
+    \category{Set}.
+  \end{primjer}
+  Kategorija \category{C} moze imati i zavrsni i inicijalni objekt, a ako ima
+  oboje onda oni ne moraju biti isti. Objekt koj je i finalni i zavrsni ponekad
+  zovemo \textbf{nulti} objekt. Lako se pokaze da ukoliko kategorija ima dva inicijalna
+  objekta da su oni izomorfni pa ima smisla govoriti o inicijalnom objektu
+  kategorije (analogno ima smisla govoriti o zavrsnom objektu).
+  \subsection{Produkti i koprodukti}
+  Produkt u teoriji kategorija je generalizacija kartezijskog produkta na
+  skupovima. Prisjetimo se, ako su $A, B$ skupovi tada je kartezijev produkt ta
+  dva skupa:
+  \begin{align*}
+    A \times B = \{ (a, b) | a \in A, b \in B\}
+  \end{align*}
+  Primjetimo da je uz takvu definiciju kartezijevog produkta prirodno
+  definirati dvije projekcije:
+  \begin{align*}
+    p_A &: A \times B \to A, f(a, b) = a\\
+    p_B &: A \times B \to B, f(a, b) = b\\
+  \end{align*}
+  Pa na razini kategorija definiramo prvi konstruktor:
+  \begin{definition}
+    Za $A, B \in Obj_C$ \textbf{grananje prema paru $A, B$} je objekt $X \in
+    Obj_C$
+    zajedno sa strelicama:
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+      {
+        && \node(A) {$A$}; \\
+        \node(X) {$X$};\\
+        && \node(B) {$B$};\\
+      };
+      \draw[->] (X) -- (A) node[anchor=south] {};
+      \draw[->] (X) -- (B) node[anchor=south] {};
+    \end{tikzpicture}
+  \end{center}
+  \end{definition}
+  \begin{definition}
+    Za $A, B \in Obj_C$ \textbf{grananje od para $A, B$} je objekt $X \in
+    Obj_C$
+    zajedno sa strelicama:
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+      {
+        \node(A) {$A$}; \\
+        && \node(X) {$X$};\\
+        \node(B) {$B$};\\
+      };
+      \draw[->] (A) -- (X) node[anchor=south] {};
+      \draw[->] (B) -- (X) node[anchor=south] {};
+    \end{tikzpicture}
+  \end{center}
+  \end{definition}
+  Kada ce biti jasno iz konteksta o kojem grananju se raditi, govoriti cemo
+  samo o grananju. Sada mozemo definirati produkt.
+  \begin{definition}
+    Neka su $A, B \in Obj_C$. \textbf{Produkt} od $A$ i $B$ je grananje
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+      {
+        && \node(A) {$A$}; \\
+        \node(S) {$S$};\\
+        && \node(B) {$B$};\\
+      };
+      \draw[->] (S) -- (A) node[anchor=south] {$p_A$};
+      \draw[->] (S) -- (B) node[anchor=north] {$p_B$};
+    \end{tikzpicture}
+  \end{center}
+  sa svojstvom da za svako grananje:
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+      {
+        && \node(A) {$A$}; \\
+        \node(X) {$X$};\\
+        && \node(B) {$B$};\\
+      };
+      \draw[->] (X) -- (A) node[anchor=south] {$f_A$};
+      \draw[->] (X) -- (B) node[anchor=north] {$f_B$};
+    \end{tikzpicture}
+  \end{center}
+  postoji jedinstvena strelica $X \xrightarrow{m} S$ takva da dijagram:
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+      {
+        && \node(A) {$A$}; \\
+        \node(X) {$X$}; && \node(S) {$S$};\\
+        && \node(B) {$B$};\\
+      };
+      \draw[->] (X) -- (A) node[anchor=south] {$f_A$};
+      \draw[->] (X) -- (B) node[anchor=north] {$f_B$};
+      \draw[->] (X) -- (S) node[anchor=south] {$m$};
+      \draw[->] (S) -- (A) node[anchor=west] {$p_A$};
+      \draw[->] (S) -- (B) node[anchor=west] {$p_B$};
+    \end{tikzpicture}
+  \end{center}
+  komutira. Tada $m$ zovemo \textbf{mediator} za grananje na $X$.
+  \end{definition}
+  Primjetimo dvije stvari:
+  \begin{itemize}
+    \item produkt nije samo objekt, produkt je objekt i dvije strelice.
+    \item mediator je jedinstveni za grananje na $X$
+  \end{itemize}
+  Analogno definiramo i koprodukt:
+
+  \begin{definition}
+    Neka su $A, B \in Obj_C$. \textbf{Koprodukt} od $A$ i $B$ je grananje
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+      {
+        \node(A) {$A$}; \\
+        && \node(X) {$S$};\\
+        \node(B) {$B$};\\
+      };
+      \draw[->] (A) -- (X) node[anchor=south] {$i_A$};
+      \draw[->] (B) -- (X) node[anchor=north] {$i_B$};
+    \end{tikzpicture}
+  \end{center}
+  sa svojstvom da za svako grananje:
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+      {
+        \node(A) {$A$}; \\
+        && \node(X) {$X$};\\
+        \node(B) {$B$};\\
+      };
+      \draw[->] (A) -- (X) node[anchor=south] {$f_A$};
+      \draw[->] (B) -- (X) node[anchor=north] {$f_B$};
+    \end{tikzpicture}
+
+  \end{center}
+  postoji jedinstvena strelica $S \xrightarrow{m} X$ takva da dijagram:
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+      {
+        \node(A) {$A$}; \\
+        \node(S) {$S$}; && \node(X) {$X$};\\
+        \node(B) {$B$};\\
+      };
+      \draw[->] (A) -- (X) node[anchor=south] {$f_A$};
+      \draw[->] (B) -- (X) node[anchor=north] {$f_B$};
+      \draw[->] (A) -- (S) node[anchor=east] {$i_A$};
+      \draw[->] (B) -- (S) node[anchor=east] {$i_B$};
+      \draw[->] (S) -- (X) node[anchor=south] {$m$};
+    \end{tikzpicture}
+  \end{center}
+  komutira.
+  \end{definition}
+  \begin{definition}
+    Za kategoriju \category{C} kazemo da je \textbf{kartezijeva} (skraceno
+    \category{C} je \textbf{CC}) ako:
+    \begin{itemize}
+      \item sadrzi inicijalni objekt
+      \item svaki par $A, B \in Obj_C$ ima kartezijev produkt.
+    \end{itemize}
+  \end{definition}
+  \begin{primjer}
+    Za kategoriju \category{Set} smo vec pokazali da sadrzi inicijalni objekt
+    $\emptyset$.
+    Pokazimo sad da je kartezijev produkt i produkt u kategorijskom smislu.
+    Neka su $A$ i $B$ skupovi.
+    Za proizvoljno grananje
+    \begin{center}
+      \begin{tikzpicture}[every node/.style={midway}]
+        \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+        {
+          && \node(A) {$A$}; \\
+          \node(X) {$X$};\\
+          && \node(B) {$B$};\\
+        };
+        \draw[->] (X) -- (A) node[anchor=south] {$f_A$};
+        \draw[->] (X) -- (B) node[anchor=north] {$f_B$};
+      \end{tikzpicture}
+    \end{center}
+    na X. Definiramo $X \xrightarrow{m} A \times B$ kao:
+    \begin{align*}
+      m(x) = (f_A(x), f_B(x))
+    \end{align*}
+    za $x \in X$. Lako se pokaze da slijedeci diagram komutira:
+  \begin{center}
+    \begin{tikzpicture}[every node/.style={midway}]
+      \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
+      {
+        && \node(A) {$A$}; \\
+        \node(X) {$X$}; && \node(S) {$A \times B$};\\
+        && \node(B) {$B$};\\
+      };
+      \draw[->] (X) -- (A) node[anchor=south] {$f_A$};
+      \draw[->] (X) -- (B) node[anchor=north] {$f_B$};
+      \draw[->] (X) -- (S) node[anchor=south] {$m$};
+      \draw[->] (S) -- (A) node[anchor=west] {$p_A$};
+      \draw[->] (S) -- (B) node[anchor=west] {$p_B$};
+    \end{tikzpicture}
+  \end{center}
+  Ostaje nam pokazati jedinstvenost, tj. da je $m$ jedina takva funkcija.
+  Pretpostavimo da postoji neka druga funkcija
+  \begin{align*}
+    X \xrightarrow{h} A \times B
+  \end{align*}
+  takva da  vrijedi:
+  \begin{align*}
+    p_A \circ h = f_A \qquad p_B \circ h = f_B\\
+  \end{align*}
+  za $x \in X$ imamo:
+  \begin{align*}
+    h(x) = (p_A(h(x), p_B(h(x))) = ((p_A \circ h )(x), (p_B \circ h)(x)) =
+    (f_A(x), f_B(x)) = m(x)
+  \end{align*}
+  Pa je \category{Set} kartezijeva kategorija.
+  \end{primjer}
 \end{document}

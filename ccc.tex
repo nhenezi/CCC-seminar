@@ -258,7 +258,7 @@
     \end{equation*}
     sa
     \begin{equation*}
-      (g \circ f)(a, c) = \sum\{f(a, y)g(y,c) | y \in B\}
+      (g \circ f)(a, c) = \sum_{y \in B}f(a, y)g(y,c)
     \end{equation*}
     Lako je vidjeti da je to kategorija.  \end{primjer}
 
@@ -287,12 +287,13 @@
       (h^{op} \circ^{op} g^{op}) \circ^{op} f^{op} &= (h \circ g)^{op} \circ^{op} f^{op}\\
       &= ((h \circ g) \circ f)^{op}\\
       &= (h \circ (g \circ f))^{op}\\
+      A
       &= h^{op} \circ^{op} (g \circ f)^{op}\\
       &= h^{op} \circ^{op} (g^{op} \circ^{op} f^{op})
     \end{align*}
     Pa je $G^{op}$ kategorija.
   \end{primjer}
-  
+
   %%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%% DIJAGRAM %%%%%%%
@@ -306,7 +307,7 @@
   \begin{align*}
     A \xrightarrow{f} B
   \end{align*}
-  Pogledajmo slijedeci dijagram sa tri strelice:
+  Pogledajmo slijedeci dijagram s tri strelice:
   \begin{center}
     \begin{tikzpicture}[every node/.style={midway}]
       \matrix[column sep={5em,between origins}, row sep={2em}] at (0,0)
@@ -320,7 +321,7 @@
       \draw[->] (A) -- (C) node[anchor=south] {$h$};
     \end{tikzpicture}
   \end{center}
-  Primjetimo da objektima nismo dali imena (zato sto nam za ovaj primjer nije
+  Primijetimo da objektima nismo dali imena (zato sto nam za ovaj primjer nije
   bitno), ali to ne znaci da su ta tri objekta jednaka. Ako vrijedi
   \begin{align*}
     g \circ f = h
@@ -367,7 +368,7 @@
   \begin{align*}
     g \circ f, h \circ f, l \circ h \circ f, l \circ h, l \circ k
   \end{align*}
-  Primjetimo da neke od tih strelica mogu biti jednake.
+  Primijetimo da neke od tih strelica mogu biti jednake.
   Ovaj dijagram ima tri celije: vanjsku $(f, k, l, g)$, lijevi
   unutarnji trokut $(f, h, k)$ i desni unutarnji trokut $(h, g, l)$.
   Neke od tih celija mogu komutirati:
@@ -384,11 +385,11 @@
     \begin{align*}
       h \circ f = k \qquad  l \circ h = g
     \end{align*}
-    trebamo pokazati da vrijedi:
+    data vrijedi:
     \begin{align*}
-      g \circ f = l \circ k
+      g \circ f = l \circ k.
     \end{align*}
-    Algebarski dobivamo:
+    Pokazimo to algebarski:
     \begin{align*}
       g \circ f = (l \circ h) \circ f \overset{(\ref{def:kat_assoc})}{=} l \circ (h \circ f) = l \circ k
     \end{align*}
@@ -441,7 +442,7 @@
       \end{tikzpicture}
     \end{center}
 
-    Komutiraju cetiri unutarnja trokuta, pokazite da komutira i vanjska
+    komutiraju cetiri unutarnja trokuta, pokazimo da komutira i vanjska
     celija.
 
     Cilj nam je pokazati da vrijedi:
@@ -458,9 +459,9 @@
       \begin{tikzpicture}[every node/.style={midway}]
         \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
         {
-          & \node(B) {$\bullet$};&&  \node(C) {$\bullet$}; &&
+          \node(EQ3) {$\quad$}; && \node(B) {$\bullet$};&&  \node(C) {$\bullet$}; &&
           && \node(B1) {$\bullet$};&&  \node(C1) {$\bullet$}; &\\
-          \node(A) {$\bullet$}; && ; && \node(D) {$\bullet$}; & \node(EQ1) {$=$};
+          &\node(A) {$\bullet$}; && ; && \node(D) {$\bullet$}; & \node(EQ1) {$=$};
           & \node(A1) {$\bullet$}; && \node(E1) {$\bullet$}; && \node(D1)
           {$\bullet$}; & \node(EQ2) {$=$};\\
         };
@@ -479,10 +480,10 @@
       \begin{tikzpicture}[every node/.style={midway}]
         \matrix[column sep={3em,between origins}, row sep={2em}] at (0,0)
         {
-          \node(A) {$\bullet$}; && \node(E) {$\bullet$}; && \node(D)
+          \node(EQ2) {$=$}; & \node(A) {$\bullet$}; && \node(E) {$\bullet$}; && \node(D)
           {$\bullet$}; & \node(EQ1) {$=$};
           & \node(A1) {$\bullet$}; && && \node(D1) {$\bullet$}; &\\
-          &&&&&&&& \node(F1) {$\bullet$}; &&\\
+          &&&&&&&&& \node(F1) {$\bullet$}; &&\\
         };
       \draw[->] (A) -- (E) node[anchor=south] {$i$};
       \draw[->] (E) -- (D) node[anchor=south] {$j$};
@@ -517,7 +518,7 @@
     Neka je \category{G} neka kategorija na skupovima i neka su strelice
     totalne funkcije izmedu skupova.
     Ako je $B \xrightarrow{m} A$ injektivna (kao funkcija) tada je $m$ monoik (kao
-    strelica).
+    strelica). Pokazimo to.
     Pretpostavimo da vrijedi:
     \begin{align} \label{me:pr:1}
       m \circ f = m \circ g
@@ -526,7 +527,7 @@
     \begin{align*}
       A \xbigtoto[g]{f} B
     \end{align*}
-    Kako su f i g totalne funkcije dovoljno je pokazati da za $x \in X$
+    Kako su f i g totalne funkcije dovoljno je pokazati da za svaki $x \in X$
     vrijedi:
     \begin{align*}
       f(x) = g(x)
@@ -592,15 +593,15 @@
     \begin{center}
       injekcija $\implies$ monoik \qquad surjekcija $\implies$ epik
     \end{center}
-    No za neke kategorije "injekvina strelica" ili "surjektivna strelica"
+    No za neke kategorije "injektivna strelica" ili "surjektivna strelica"
     nemaju smisla, tako da takva intuitivna interpretacija ima smisla za
     "dovoljno lijepe" kategorije. Pravilnije bi bilo gledati na monoik i epik
     kao na strelice koje se mogu "ponistiti" na jednoj strani. Ako pak strelica
     ima jednostrani inverz tada dobivamo posebnu klasu monoika i epika.
     \begin{definition}
-      Ako za Strelice:
+      Ako za strelice:
       \begin{align*}
-        B \xrightarrow{s} A \qquad A \xrightarrow{r} B
+        B \xrightarrow{s} A, \qquad A \xrightarrow{r} B
       \end{align*}
       vrijedi:
       \begin{align*}
@@ -619,6 +620,11 @@
         g \circ f = id_A \wedge f \circ g = id_B
       \end{align}
     \end{definition}
+    \begin{definition}
+      Za dva objekta $A$ i $B$ kazemo da su \textbf{izomorfni} ako postoji izomorfizam
+      $A \xrightarrow{} B$.
+    \end{definition}
+
     Lako se pokaze da ukoliko je strelica sekcija i epik ili retrakcija i
     monoik da je tada i izomorfizam.
     Graficki prikazano:
@@ -643,59 +649,59 @@
       \draw[->] (B) -- (I) node[anchor=north] {};
     \end{tikzpicture}
     \end{center}
-  %%%%%%%%%%%%%%%%%%%%%%
-  %% Limes i kolimesi %%
-  %%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %% Kategorijski konstruktori %%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   \newpage
   \section{Kategorijski konstrukori}
   U ovom poglavlju istrazujemo neke osnovne kategorijske
   konstruktore, tj. objekte koji zadovoljavaju neka pravila definirana u teoriji
   kategorija. Kako u jeziku kategorija ne gledamo unutrasnju strukturu objekata
-  svi koncept moraju biti definirani pomocu relacija izmedu objekata.
+  svi koncepti moraju biti definirani pomocu relacija izmedu objekata.
   \subsection{Inicijalni i zavrsni objekti}
   \begin{definition}
-    Za objekt $S$ u kategoriji \category{G} kazemo da je \textbf{finalan} ako za svaki
-    objekt $A$ postoji jedinstvena strelica $A \xrightarrow{} S$
+    Za objekt $S$ u kategoriji \category{G} kazemo da je \textbf{finalni} ako za svaki
+    objekt $A$ postoji jedinstvena strelica $A \xrightarrow{} S$.
   \end{definition}
   \begin{definition}
-    Za objekt $S$ u kategoriji \category{G} kazemo da je \textbf{inicijalan} ako za svaki
-    objekt $A$ postoji jedinstvena strelica $S \xrightarrow{} A$
+    Za objekt $S$ u kategoriji \category{G} kazemo da je \textbf{inicijalni} ako za svaki
+    objekt $A$ postoji jedinstvena strelica $S \xrightarrow{} A$.
   \end{definition}
   \begin{primjer}
     Neka je \category{Set} kategorija skupova i neka je 
     \begin{center}
       $1 = \{x\}$
     \end{center}
-    skup se jednim elementom. Za svaki skup $A$ postoji jednistvena strelica
+    skup s jednim elementom. Za svaki skup $A$ postoji jednistvena strelica
     \begin{center}
       $A \xrightarrow{} 1$
     \end{center}
     (funkcija koja preslikava sve u $x$) pa je $1$ finalni objekt za
     \category{Set}.
-    Za svaki skup $A$ postoji jednistvena strelica
+    Za svaki skup $A$ postoji jedinstvena strelica
     \begin{center}
       $\emptyset \xrightarrow{} A$
     \end{center}
     (gdje je $\emptyset$ prazan skup) pa je $\emptyset$ inicijalni objekt za
     \category{Set}.
   \end{primjer}
-  Kategorija \category{C} moze imati i zavrsni i inicijalni objekt, a ako ima
-  oboje onda oni ne moraju biti isti. Objekt koj je i finalni i zavrsni ponekad
+  Kategorija \category{C} moze imati i finalni i inicijalni objekt, a ako ima
+  oboje onda oni ne moraju biti isti. Objekt koj je i finalni i inicijalni ponekad
   zovemo \textbf{nulti} objekt. Lako se pokaze da ukoliko kategorija ima dva inicijalna
   objekta da su oni izomorfni pa ima smisla govoriti o inicijalnom objektu
   kategorije (analogno ima smisla govoriti o zavrsnom objektu).
   \subsection{Produkti i koprodukti}
-  Produkt u teoriji kategorija je generalizacija kartezijskog produkta na
-  skupovima. Prisjetimo se, ako su $A, B$ skupovi tada je kartezijev produkt ta
+  Produkt u teoriji kategorija je generalizacija Kartezijskog produkta na
+  skupovima. Prisjetimo se, ako su $A, B$ skupovi tada je Kartezijev produkt ta
   dva skupa:
   \begin{align*}
     A \times B = \{ (a, b) | a \in A, b \in B\}
   \end{align*}
-  Primjetimo da je uz takvu definiciju kartezijevog produkta prirodno
+  Primijetimo da je uz takvu definiciju Kartezijevog produkta prirodno
   definirati dvije projekcije:
   \begin{align*}
-    p_A &: A \times B \to A, f(a, b) = a\\
-    p_B &: A \times B \to B, f(a, b) = b\\
+    p_A &: A \times B \to A, p_A(a, b) = a\\
+    p_B &: A \times B \to B, p_B(a, b) = b\\
   \end{align*}
   Pa na razini kategorija definiramo prvi konstruktor:
   \begin{definition}
@@ -732,7 +738,7 @@
     \end{tikzpicture}
   \end{center}
   \end{definition}
-  Kada ce biti jasno iz konteksta o kojem grananju se raditi, govoriti cemo
+  Kada ce biti jasno iz konteksta o kojem grananju se raditi, govorit cemo
   samo o grananju. Sada mozemo definirati produkt.
   \begin{definition}
     Neka su $A, B \in Obj_C$. \textbf{Produkt} od $A$ i $B$ je grananje
@@ -779,7 +785,7 @@
   \end{center}
   komutira. Tada $m$ zovemo \textbf{mediator} za grananje na $X$.
   \end{definition}
-  Primjetimo dvije stvari:
+  Primijetimo dvije stvari:
   \begin{itemize}
     \item produkt nije samo objekt, produkt je objekt i dvije strelice.
     \item mediator je jedinstveni za grananje na $X$
@@ -833,17 +839,17 @@
   komutira.
   \end{definition}
   \begin{definition}
-    Za kategoriju \category{C} kazemo da je \textbf{kartezijeva} (skraceno
+    Za kategoriju \category{C} kazemo da je \textbf{Kartezijeva} (skraceno
     \category{C} je \textbf{CC}) ako:
     \begin{itemize}
       \item sadrzi inicijalni objekt
-      \item svaki par $A, B \in Obj_C$ ima kartezijev produkt.
+      \item za svaki par $A, B \in Obj_C$ postoji Kartezijev produkt.
     \end{itemize}
   \end{definition}
   \begin{primjer}
     Za kategoriju \category{Set} smo vec pokazali da sadrzi inicijalni objekt
     $\emptyset$.
-    Pokazimo sad da je kartezijev produkt i produkt u kategorijskom smislu.
+    Pokazimo sad da je Kartezijev produkt i produkt u kategorijskom smislu.
     Neka su $A$ i $B$ skupovi.
     Za proizvoljno grananje
     \begin{center}
@@ -892,7 +898,7 @@
     h(x) = (p_A(h(x), p_B(h(x))) = ((p_A \circ h )(x), (p_B \circ h)(x)) =
     (f_A(x), f_B(x)) = m(x)
   \end{align*}
-  Pa je \category{Set} kartezijeva kategorija.
+  Pa je \category{Set} jedna Kartezijeva kategorija.
   \end{primjer}
 
   \newpage

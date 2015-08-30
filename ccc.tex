@@ -11,6 +11,7 @@
 \usepackage{extpfeil}
 \usepackage{hyperref}
 \usepackage{listings}
+\lstnewenvironment{mcode}{\lstset{language=Haskell,basicstyle=\small}}{}
 
 \newextarrow{\xbigtoto}{{20}{20}{20}{20}}
 {\bigRelbar\bigRelbar{\bigtwoarrowsleft\rightarrow\rightarrow}}
@@ -32,6 +33,9 @@
 \newtheorem{teorem}{Teorem}
 
 \begin{document}
+  \section{Uvod}
+  Sazetak...
+  \newpage
   %%%%%%%%%%%%%%%%%%%%%%%%%%%
   %% Definicija Kategorije %%
   %%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -185,7 +189,7 @@
   \codei{')'}, \codei{'^'}), \codei{Bool} sadrzi samo dva elementa
   \codei{\{True, False\}},  \codei{Integer} je beskonacni skup koji sadrzi
   sve cijele brojeve, \codei{Void} je prazan skup ($\emptyset$).
-  Kada u Haskellu zapisamo da je $x$ Integer, tj:
+  Kada u Haskellu zapisemo da je $x$ Integer, tj:
   \code{
     x :: Integer
   }
@@ -198,7 +202,7 @@
   moze doci do rezultata u konacno mnogo koraka, ali ponekad to nije tako. Zbog "Halting
   problema"\footnote{Ako je zadan program i ulaz za taj program, odredite hoce
     li racunanje tog program stati.
-    \url{http://mathworld.wolfram.com/HaltingProblem.html}} ne mozmo se
+    \url{http://mathworld.wolfram.com/HaltingProblem.html}} ne mozemo se
   ograniciti samo na funkcije kod kojih se moze doci do rezultata u konacno
   mnogo koraka pa se u svaki Haskellov tip dodaje posebna vrijednost: ⊥ (dno).
   Ta posebna vrijednost oznacava da racunanje nece stati, pa tako funkcija $f:
@@ -671,6 +675,8 @@
     Za objekt $S$ u kategoriji \category{G} kazemo da je \textbf{finalni} ako za svaki
     objekt $A$ postoji jedinstvena strelica $A \xrightarrow{} S$.
   \end{definition}
+  Lako se pokaze da ukoliko je objekt $I$ finalni object u kategoriji \category{G}
+  da je tada $I$ inicijalni object u $\category{G}^{op}$.
   \begin{primjer}
     Neka je \category{Set} kategorija skupova i neka je 
     \begin{center}
@@ -693,8 +699,8 @@
     Zbog polimorfizma \footnote{Parametrizirani polimorfizam omogucava da se
       funkcije pisu generalno bez ovisnosti o tipu, opsirnije o tome u
       poglavlju "Funktori". Za sada mozemo funkciju \codei{absurd :: -> a}
-      interpretirati kao skup funkcija \{void $\to$ a $|$ a je tip u
-      \category{Hask}\} cije pozivanje ovisi o konacnom tipu.} mozemo definirati polimorfnu funkciju:
+      interpretirati kao skup funkcija \{Void $\to$ a $|$ a je tip u
+      \category{Hask}\} cije pozivanje ovisi o kodomeni.} mozemo definirati polimorfnu funkciju:
     \code{
       absurd :: Void -> a
     }
@@ -704,7 +710,7 @@
     Mozemo definirati polimorfnu funkciju \codei{unit :: a -> ()} kao:
     \code{
       unit x = ()
-    },
+    }.
   \end{primjer}
   Kategorija \category{C} moze imati i finalni i inicijalni objekt, a ako ima
   oboje onda oni ne moraju biti isti. Objekt koj je i finalni i inicijalni ponekad
@@ -724,6 +730,15 @@
     p_A &: A \times B \to A, p_A(a, b) = a\\
     p_B &: A \times B \to B, p_B(a, b) = b\\
   \end{align*}
+  Ako su \codei{a} i \codei{b} proizvoljni tipovi u \category{Hask} te dvije
+  funkcije zovemo \codei{fst} i \codei{snd}.
+  \begin{mcode}
+    fst :: (a, b) -> a
+    fst (x, y) = x
+
+    snd :: (a, b) -> b
+    snd (x, y) = y
+  \end{mcode}
   Pa na razini kategorija definiramo prvi konstruktor:
   \begin{definition}
     Za $A, B \in Obj_C$ \textbf{grananje prema paru $A, B$} je objekt $X \in
@@ -811,6 +826,13 @@
     \item produkt nije samo objekt, produkt je objekt i dvije strelice.
     \item mediator je jedinstveni za grananje na $X$
   \end{itemize}
+  U \category{Hask}-u mozemo definirati funkciju (viseg reda)
+  \codei{factorizer} koja ce za bilo koji tip c i dvije projekcije $c
+  \xrightarrow{p} a$ i $c \xrightarrow{q} b$ vratiti jedinstveni mediator.
+  \begin{mcode}
+    factorizer :: (c -> a) -> (c -> b) -> (c -> (a, b))
+    factorizer p q = \x -> (p x, q x)
+  \end{mcode}
   Analogno definiramo i koprodukt:
 
   \begin{definition}
@@ -859,6 +881,7 @@
   \end{center}
   komutira.
   \end{definition}
+
   \begin{definition}
     Za kategoriju \category{C} kazemo da je \textbf{Kartezijeva} (skraceno
     \category{C} je \textbf{CC}) ako:
@@ -921,6 +944,8 @@
   \end{align*}
   Pa je \category{Set} jedna Kartezijeva kategorija.
   \end{primjer}
+  \newpage
+  \section{Funktori}
 
   \newpage
   \section*{Literatura}

@@ -181,15 +181,18 @@
   %%%%%%%%%%%%%
   Haskell je funkcijski programski jezik nazvan po logicaru Haskellu Curryiu. U
   Haskellu \textbf{tip} intuitivno mozemo shvatiti kao skup, npr.
-  \category{Char} je skup svih Unicode znakova (\codei{'A'},
-  \codei{')'}, \codei{'^'}), \category{Bool} sadrzi samo dva elementa
-  \codei{\{True, False\}},  \category{Integer} je beskonacni skup koji sadrzi
-  sve cijele brojeve.
+  \codei{Char} je skup svih Unicode znakova (\codei{'A'},
+  \codei{')'}, \codei{'^'}), \codei{Bool} sadrzi samo dva elementa
+  \codei{\{True, False\}},  \codei{Integer} je beskonacni skup koji sadrzi
+  sve cijele brojeve, \codei{Void} je prazan skup ($\emptyset$).
   Kada u Haskellu zapisamo da je $x$ Integer, tj:
   \code{
     x :: Integer
   }
-  to znaci da je $x$ element skupa cijelih brojeva.
+  to znaci da je $x$ element skupa cijelih brojeva. Poseban tip je
+  \codei{()} koji nazivamo unit i cija je jedina vrijednost
+  \codei{()}.
+
   Haskellove funkcije ne mozemo poistovjetiti sa matematickim funkcijama jer
   Haskellove funkcije trebaju izvrsiti neki kod - sto nije problem ukoliko se
   moze doci do rezultata u konacno mnogo koraka, ali ponekad to nije tako. Zbog "Halting
@@ -198,7 +201,7 @@
     \url{http://mathworld.wolfram.com/HaltingProblem.html}} ne mozmo se
   ograniciti samo na funkcije kod kojih se moze doci do rezultata u konacno
   mnogo koraka pa se u svaki Haskellov tip dodaje posebna vrijednost: ⊥ (dno).
-  Ta posebna vrijednost oznacava da racunanje nece stati, pa tako funkciju $f:
+  Ta posebna vrijednost oznacava da racunanje nece stati, pa tako funkcija $f:
   Bool \to Bool$  u Haskellu definirana sa:
   \code{
     f :: Bool -> Bool
@@ -211,7 +214,7 @@
   ali su Nils Anders Danielsson, John Hughes, Patrik Jansson i Jeremy Gibbons
   u Fast and Loose Reasoning is Morally Correct (\ref{bib:fast-loose}) pokazali
   da za potrebe ovog seminara mozemo ignorirati znak ⊥ i njegove posljedice, pa
-  uzevsi to u obzir dajemo definiciu \category{Hask}-a.
+  uzevsi to u obzir dajemo idealiziranu definiciju \category{Hask}-a.
   %%%%%%%%%%%%%%%%%%%%%
   %% Hask Kategorija %%
   %%%%%%%%%%%%%%%%%%%%%
@@ -498,7 +501,8 @@
   %%%%%%%%%%%%%%%%%%%
   \newpage
   \section{Monoik i epik}
-
+  U ovom poglavlju prosirujemo terminologiju i proucavamo posebne slucajeve
+  strelica da bi dosli do definicije izomorfizma.
   \begin{definition}
     U proizvoljnoj kategoriji \category{G} strelicu:
     \begin{align*}
@@ -658,14 +662,14 @@
   konstruktore, tj. objekte koji zadovoljavaju neka pravila definirana u teoriji
   kategorija. Kako u jeziku kategorija ne gledamo unutrasnju strukturu objekata
   svi koncepti moraju biti definirani pomocu relacija izmedu objekata.
-  \subsection{Inicijalni i zavrsni objekti}
-  \begin{definition}
-    Za objekt $S$ u kategoriji \category{G} kazemo da je \textbf{finalni} ako za svaki
-    objekt $A$ postoji jedinstvena strelica $A \xrightarrow{} S$.
-  \end{definition}
+  \subsection{Inicijalni i finalni objekti}
   \begin{definition}
     Za objekt $S$ u kategoriji \category{G} kazemo da je \textbf{inicijalni} ako za svaki
     objekt $A$ postoji jedinstvena strelica $S \xrightarrow{} A$.
+  \end{definition}
+  \begin{definition}
+    Za objekt $S$ u kategoriji \category{G} kazemo da je \textbf{finalni} ako za svaki
+    objekt $A$ postoji jedinstvena strelica $A \xrightarrow{} S$.
   \end{definition}
   \begin{primjer}
     Neka je \category{Set} kategorija skupova i neka je 
@@ -685,11 +689,28 @@
     (gdje je $\emptyset$ prazan skup) pa je $\emptyset$ inicijalni objekt za
     \category{Set}.
   \end{primjer}
+  \begin{primjer} \codei{Void} je inicijalni object u \category{Hask}.
+    Zbog polimorfizma \footnote{Parametrizirani polimorfizam omogucava da se
+      funkcije pisu generalno bez ovisnosti o tipu, opsirnije o tome u
+      poglavlju "Funktori". Za sada mozemo funkciju \codei{absurd :: -> a}
+      interpretirati kao skup funkcija \{void $\to$ a $|$ a je tip u
+      \category{Hask}\} cije pozivanje ovisi o konacnom tipu.} mozemo definirati polimorfnu funkciju:
+    \code{
+      absurd :: Void -> a
+    }
+    gdje je \codei{a} bilo koji tip u \category{Hask}.
+  \end{primjer}
+  \begin{primjer} \codei{()} je finalni object u \category{Hask}.
+    Mozemo definirati polimorfnu funkciju \codei{unit :: a -> ()} kao:
+    \code{
+      unit x = ()
+    },
+  \end{primjer}
   Kategorija \category{C} moze imati i finalni i inicijalni objekt, a ako ima
   oboje onda oni ne moraju biti isti. Objekt koj je i finalni i inicijalni ponekad
   zovemo \textbf{nulti} objekt. Lako se pokaze da ukoliko kategorija ima dva inicijalna
   objekta da su oni izomorfni pa ima smisla govoriti o inicijalnom objektu
-  kategorije (analogno ima smisla govoriti o zavrsnom objektu).
+  kategorije (analogno ima smisla govoriti o finalnom objektu).
   \subsection{Produkti i koprodukti}
   Produkt u teoriji kategorija je generalizacija Kartezijskog produkta na
   skupovima. Prisjetimo se, ako su $A, B$ skupovi tada je Kartezijev produkt ta
@@ -913,5 +934,9 @@
       Nils Anders Danielsson, John Hughes, Patrik Jansson, Jeremy Gibbons,
 Fast and Loose Reasoning is Morally Correct
 \url{http://www.cs.ox.ac.uk/jeremy.gibbons/publications/fast+loose.pdf}
+  \item[[5]]
+    \url{http://bartoszmilewski.com/2014/11/24/types-and-functions/}
+  \item[[6]]
+    Pierce, Benjamin C. (2002). Types and Programming Languages.
   \end{description}
 \end{document}

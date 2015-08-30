@@ -9,12 +9,17 @@
 \usepackage{tabu}
 \usepackage{tikz}
 \usepackage{extpfeil}
+\usepackage{hyperref}
+\usepackage{listings}
 
 \newextarrow{\xbigtoto}{{20}{20}{20}{20}}
 {\bigRelbar\bigRelbar{\bigtwoarrowsleft\rightarrow\rightarrow}}
 
 \definecolor{codegray}{gray}{0.9}
 \newcommand{\category}[1]{\textbf{\emph{#1}}}
+\newcommand{\codei}[1]{
+  {\lstinline[basicstyle=\ttfamily]{#1}}
+}
 \newcommand{\code}[1]{
   \begin{align*}
     \texttt{#1}
@@ -171,6 +176,42 @@
   pa mozemo govoriti u kategoriji \category{Pos} gdje su objekti parcijalno
   uredeni skupovi a strelice monotona preslikavanja.
   \end{primjer}
+  %%%%%%%%%%%%%
+  %% Haskell %%
+  %%%%%%%%%%%%%
+  Haskell je funkcijski programski jezik nazvan po logicaru Haskellu Curryiu. U
+  Haskellu \textbf{tip} intuitivno mozemo shvatiti kao skup, npr.
+  \category{Char} je skup svih Unicode znakova (\codei{'A'},
+  \codei{')'}, \codei{'^'}), \category{Bool} sadrzi samo dva elementa
+  \codei{\{True, False\}},  \category{Integer} je beskonacni skup koji sadrzi
+  sve cijele brojeve.
+  Kada u Haskellu zapisamo da je $x$ Integer, tj:
+  \code{
+    x :: Integer
+  }
+  to znaci da je $x$ element skupa cijelih brojeva.
+  Haskellove funkcije ne mozemo poistovjetiti sa matematickim funkcijama jer
+  Haskellove funkcije trebaju izvrsiti neki kod - sto nije problem ukoliko se
+  moze doci do rezultata u konacno mnogo koraka, ali ponekad to nije tako. Zbog "Halting
+  problema"\footnote{Ako je zadan program i ulaz za taj program, odredite hoce
+    li racunanje tog program stati.
+    \url{http://mathworld.wolfram.com/HaltingProblem.html}} ne mozmo se
+  ograniciti samo na funkcije kod kojih se moze doci do rezultata u konacno
+  mnogo koraka pa se u svaki Haskellov tip dodaje posebna vrijednost: ⊥ (dno).
+  Ta posebna vrijednost oznacava da racunanje nece stati, pa tako funkciju $f:
+  Bool \to Bool$  u Haskellu definirana sa:
+  \code{
+    f :: Bool -> Bool
+  }
+  moze vratiti \codei{True}, \codei{False} ili ⊥. Funkcije koje mogu vratiti ⊥
+  zovemo parcijalne funkcije.
+  Zbog specijalnog znaka ⊥ kategoriju Haskellovih funkcija i tipova razlikujemo
+  od \category{Set} i oznacavamo sa \category{Hask}. Tom distinkcijom dolazimo
+  do nekih komplikacija \footnote{seq - \url{https://wiki.haskell.org/Seq}}
+  ali su Nils Anders Danielsson, John Hughes, Patrik Jansson i Jeremy Gibbons
+  u Fast and Loose Reasoning is Morally Correct (\ref{bib:fast-loose}) pokazali
+  da za potrebe ovog seminara mozemo ignorirati znak ⊥ i njegove posljedice, pa
+  uzevsi to u obzir dajemo definiciu \category{Hask}-a.
   %%%%%%%%%%%%%%%%%%%%%
   %% Hask Kategorija %%
   %%%%%%%%%%%%%%%%%%%%%

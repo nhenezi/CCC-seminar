@@ -961,6 +961,10 @@
   %% Funktori %%
   %%%%%%%%%%%%%%
   \section{Funktori}
+  Do sada smo definirali kategorije, pa posebno i \category{Hask} kategoriju,
+  proucavali razlicite vrste strelica, objekata i pokazali njihove ekvivalente
+  u \category{Hask}-u. U ovom poglavlju bavimo se "preslikavanjima" izmedju
+  kategorija i demonstriramo prakticnu primjenu teorije kategorije u Haskellu.
   \begin{definition}
     Neka su \category{C} i \category{G} kategorije. \textbf{Funktor} $F$ iz
     \category{C} u \category{G} je preslikavanje koje:
@@ -976,6 +980,8 @@
         \end{itemize}
     \end{itemize}
   \end{definition}
+  Funktori cuvaju strukturu kategorije, sve sto je povezano u pocetnoj
+  kategoriji ostati ce povezano i u kranjoj.
   \begin{definition}
     Neka je \category{C} proizvoljna kategorija i neka je $F$ funktor sa
     \category{C} u \category{C}. Tada kazemo da je $F$ \textbf{endofunktor} nad
@@ -1090,7 +1096,7 @@
     >> fmap double [1.0..10.0]
     [2.0,4.0,6.0,8.0,10.0,12.0,14.0,16.0,18.0,20.0]
   \end{mcode}
-  Cime smo preko teorije kategorije i funktora eliminirali potrebu za
+  Cime smo preko teorije kategorije u funktora eliminirali potrebu za
   petljama koje su neizostavne kod imperativnih programskih jezika.
   \newpage
   \section*{Literatura}

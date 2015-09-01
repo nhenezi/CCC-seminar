@@ -301,6 +301,20 @@
     Pa je $G^{op}$ kategorija.
   \end{primjer}
 
+  U kasnijim razmatranjima trebati ce nam pojam podkategorije.
+  \begin{definition}
+    Za kategoriju \category{G} kazemo da je podkategorija kategorije
+    \category{C} ako vrijedi
+    \begin{itemize}
+      \item $Obj_\category{G} \subseteq Obj_\category{C}$
+      \item za sve $A, B \in \category{G}, \category{G}[A, B] \subseteq
+        \category{C}[A, B]$
+      \item kompozicija i identitata su jednaki u \category{G} i \category{C}
+    \end{itemize}
+    Kazemo da je podkategorija \textbf{puna} ako za $A, B \in \category{G},
+    \category{G}[A, B] = \category{C}[A, B]$
+  \end{definition}
+  Primjetimo da je puna podkategorija jedinstveno zadana svojim objektima.
   %%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%%%%%%%%%%%%%%%%%%%
   %%%%%%% DIJAGRAM %%%%%%%
@@ -942,8 +956,142 @@
   Pa je \category{Set} jedna Kartezijeva kategorija.
   \end{primjer}
   \newpage
-  \section{Funktori}
 
+  %%%%%%%%%%%%%%
+  %% Funktori %%
+  %%%%%%%%%%%%%%
+  \section{Funktori}
+  \begin{definition}
+    Neka su \category{C} i \category{G} kategorije. \textbf{Funktor} $F$ iz
+    \category{C} u \category{G} je preslikavanje koje:
+    \begin{itemize}
+      \item svakome $x \in Obj_\category{C}$ pridruzuje $F(x) \in
+        Obj_\category{G}$
+      \item svakome $X \xrightarrow{f} Y \in Arw_\category{C}$ pridruzuje
+        $F(X) \xrightarrow{F(f)} F(Y) \in Arw_\category{G}$ tako da vrijedi:
+        \begin{itemize}
+          \item $F(id_X) = id_{F(X)}$ za $X \in Obj_\category{C}$
+          \item $F(g \circ f) = F(g) \circ F(f)$ za sve $X \xrightarrow{f} Y$ i
+            $Y \xrightarrow{g} Z$
+        \end{itemize}
+    \end{itemize}
+  \end{definition}
+  \begin{definition}
+    Neka je \category{C} proizvoljna kategorija i neka je $F$ funktor sa
+    \category{C} u \category{C}. Tada kazemo da je $F$ \textbf{endofunktor} nad
+    \category{C}.
+  \end{definition}
+  \begin{primjer}
+    Neka je \category{C} proizvoljna kategorija, i neka je $F$ preslikavanje
+    iz \category{C}  u \category{C} takvo da vrijedi:
+    \begin{itemize}
+      \item $x = F(x)$ za svaki $x \in Obj_\category{C}$
+      \item $f = F(f)$ za svaki $f \in Obj_\category{C}$
+    \end{itemize}
+    Tada je $F$ endofunktor nad \category{C} koji zovemo \textbf{funktor identitete}.
+  \end{primjer}
+  Funktori u Haskellu usko su vezani uz gornju definiciju funktora. 
+  Da bi mogli objasniti
+  funktore u Haskellu na primjeru napraviti cemo malu digresiju i definirati
+  jedan od najjednostavnijih parametriziranih tipova: \codei{Maybe}
+  \subsection{Maybe}
+  Parametrizirani tip \codei{Maybe} sluzi za enkapsuliranje opcionalnih
+  vrijednost, npr. pretpostavimo da zelimo napisati funkciju u Haskellu koje ce
+  dohvatiti prvi element liste cijelih brojeva. Sto ce se dogoditi ako je lista prazna?
+
+  Tip \codei{Maybe} nam omogucava da modeliramo tip koji moze, ali i ne mora
+  imati vrijednost, tj. isto kao i tip \codei{Bool} moze imati \codei{True}
+  ili \codei{False} tako \codei{Maybe} moze imati vrijednost \codei{Just a} ili
+  \codei{Nothing}. Primjetimo da iako formalno \codei{Maybe} moze imati dvije
+  vrijednosti, prirodnija je interpretacija da ukoliko je vrijednost
+  \codei{Nothing} da to interpretiramo kao da nismo dobili nista (sto moze
+  sluziti za rjesavanje takozvanih rubnih uvjeta)
+
+  \codei{Maybe} je parametrizirani konstruktor tipa, sto znaci da pomocu
+  \codei{Maybe} mozemo generirati nove tipove. Definicija \codei{Maybe} u
+  Haskellu:
+  \begin{mcode}
+    data Maybe a = Just a | Nothing
+  \end{mcode}
+  Vidimo da pomocu \codei{Maybe a}, gdje je \codei{a} bilo koji tip mozemo
+  konstruirati druge tipove koji mogu imati vrijednost ili \codei{Just a} ili
+  \codei{Nothing}. Npr. \codei{Maybe Integer} moze imati vrijednost \codei{Just
+    Integer} ili \codei{Nothing}. Vratimo li se na primjer liste, to znaci da nasa funkcija
+  koja bi vracala prvi element liste cijelih brojeva ima tip:
+  \begin{mcode}
+    head' :: [Integer] -> Maybe Integer
+  \end{mcode}
+  I kada bi pozvali \codei{head} na praznoj listi dobijemo \codei{Nothing}, dok
+  nepraznoj dobijemo \codei{Just Int}, npr.
+  \begin{mcode}
+    >> head' [2, 4, 6, 8, 10]
+    Just 2
+    >> head' []
+    Nothing
+  \end{mcode}
+  \subsection{Funktori u Haskellu}
+  Kako se funktor sastoji od dva dijela: preslikava objekte iz jedne kategorije u drugu
+  i preslikava strelice iz prve kategorije u drugu, funktori u Haskellu su iz
+  \category{Hask} u \category{Func}, gdje je \category{Func} podkategorija od
+  \category{Hask}-a. Funktor liste ide iz \category{Hask} u \category{Lst},
+  gdje \category{Lst} sadrzi samo liste, tj. \codei{[T]}\footnote{
+    \codei{[a]} je konstruktor tipa sa jednim parametrom,
+    kao i \codei{Maybe a}}
+  za bilo koji tip \codei{T}. Definicija funktora u Haskellu:
+  \begin{mcode}
+    class Functor (f :: * -> *) where
+      fmap :: (a -> b) -> f a -> f b
+  \end{mcode}
+  koji mora zadovoljavati:
+  \begin{mcode}
+    fmap id = id
+    fmap (f . g) = fmap f . fmap g
+  \end{mcode}
+  Primjetimo da su ti uvjeti u skladu sa definicijom funktora u kategoriji.
+  \begin{primjer}
+    Pokazimo da je \codei{Maybe a} funktor.
+    Primjetimo da kako je \codei{Maybe} konstruktor tipa (s jednim
+    parametrom) mozemo poslati bilo koji tip \codei{X} iz \category{Hask}-a i
+    dobiti novi tip \codei{Maybe X}, pa zakljucujemo da \codei{Maybe}
+    preslikava objekte iz jedne kategorije u drugu\footnote{Objekti u
+      kategoriji \category{Hask} su tipovi}.
+
+    Definirajmo sad \codei{fmap} tako da su zadovoljeni ostali uvjeti da
+    \codei{Maybe a} bude funktor.
+    \begin{mcode}
+      instance Functor Maybe where
+        fmap f (Just x) = Just (f x)
+        fmap f Nothing = Nothing
+    \end{mcode}
+    Iz gornje definicije vidimo da za bilo koji \codei{A} $\xrightarrow{f}$
+    \codei{B} $\in
+    Arw_\category{Hask}$ vrijedi: \codei{Maybe A}
+    $\xrightarrow{\texttt{fmap f}}$ \codei{Maybe B}.
+    Lako se provjeri da sa tako definiranom funkcijom \codei{fmap} 
+    \codei{Maybe a} je funktor.
+  \end{primjer}
+  Korisna intuicija kod Haskellovih funktora je da oni reprezentiraju tipove
+  preko kojih se moze mapirati: to mogu biti liste cijelih brojeva,
+  balansirana stabla, opcionalne vrijednost (\codei{Maybe a}) ili nesto trece.
+
+  Jednostavan primjer mapiranja preko liste cijelih brojeva moze se pokazati
+  koristenjem funkcije \codei{double} koja ce udvostruciti cijeli broj.
+  Definicija \codei{double} u Haskellu:
+  \begin{mcode}
+    double :: Double -> Double
+    double n = n * 2
+  \end{mcode}
+  Primjetimo da \codei{double} mozemo gledati kao \codei{Double}
+  $\xrightarrow{\texttt{double}}$ \codei{Double}. Kako je lista cijelih
+  brojeva (\codei{[Double]}) funktor, mozemo preslikati \codei{double} 
+  u \codei{[Double]} $\xrightarrow{\texttt{fmap double}}$
+  \codei{[Double]}. Npr.:
+  \begin{mcode}
+    >> fmap double [1.0..10.0]
+    [2.0,4.0,6.0,8.0,10.0,12.0,14.0,16.0,18.0,20.0]
+  \end{mcode}
+  Cime smo preko teorije kategorije i funktora eliminirali potrebu za
+  petljama koje su neizostavne kod imperativnih programskih jezika.
   \newpage
   \section*{Literatura}
   \begin{description}
